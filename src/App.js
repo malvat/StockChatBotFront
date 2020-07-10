@@ -1,18 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import { Widget, addResponseMessage } from 'react-chat-widget';
-import 'react-chat-widget/lib/styles.css';
-import { render } from '@testing-library/react';
-
-const handleNewUserMessage = (newMessage) => {
-  console.log(newMessage);
-  addResponseMessage("hi ");
-
-};
+import 'react-chat-widget/lib/styles.css';  
+import NavBar from './NavBar';
+import LogBody from './LogBody';
+import SignBody from './SignBody';
 
 function App() {
 
-  return <Widget handleNewUserMessage={ handleNewUserMessage } />;
+  return (
+    <div>
+      <NavBar />
+      <SignBody />
+    </div>
+
+  )
 }
 
 export default App;
