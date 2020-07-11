@@ -1,6 +1,6 @@
 import React from 'react'
-import {Paper, Typography, TextField, Button, Link} from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
+import {Paper, Typography, TextField, Button } from '@material-ui/core';
+import {Link} from "react-router-dom";
 
 const heading = {
     display: "flex",
@@ -20,7 +20,7 @@ const container = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "80vh",
+    height: "100vh",
 }
 
 const form = {
@@ -65,7 +65,7 @@ export default class LogBody extends React.Component {
                             <TextField type="password" style={inputStyle} id="password" label="Password" variant="outlined"/>
                         </div>
                         <div style={links}>
-                            <Link href="#" color="primary">
+                            <Link to="/signup" color="primary">
                                 create an account
                             </Link>
                             <Button variant="contained" color="primary">

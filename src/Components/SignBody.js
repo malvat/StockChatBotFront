@@ -1,6 +1,6 @@
 import React from 'react'
-import {Paper, Typography, TextField, Button, Link} from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
+import {Paper, Typography, TextField, Button, Snackbar, Slide } from '@material-ui/core';
+import {Link} from "react-router-dom";
 
 const heading = {
     display: "flex",
@@ -20,7 +20,7 @@ const container = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "80vh",
+    height: "100vh",
 }
 
 const form = {
@@ -54,6 +54,8 @@ export default class SignBody extends React.Component {
         this.state = {
             heading: "click the damn button",
             check: true,
+            snackbar: false,
+            snackmessage: "hello, there",
         }
     }
 
@@ -61,26 +63,45 @@ export default class SignBody extends React.Component {
         var user = {};
         var fields = ["first_name", "last_name", "email", "password"];
         var temp;
+        var incomplete = false;
         console.log("clicked");
         for(var i = 0; i < fields.length; i++) {    
-            var temp = document.getElementById(fields[i]);
-            if(temp != undefined) {
+            temp = document.getElementById(fields[i]);
+            if(temp !== undefined) {
+                if(temp.value.trim() == "") {
+                    incomplete = true;
+                    break;
+                }
                 user[fields[i]] = temp.value;
+            } else {
+                incomplete = true;
+                break;
             }
         }
-        fetch("http://localhost:8000/user/create", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/JSON', 
-                'Content-Type': 'application/JSON'
-            },
-            body: JSON.stringify(user)
-        }).then( result=> {
-            result.json().then(res=>{
-                // change the page
-                console.log(res);
+
+        // check if all the necessary information is provided 
+        if(!incomplete) {
+            // make request to backedn for creating user
+            fetch("http://localhost:8000/user/create", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/JSON', 
+                    'Content-Type': 'application/JSON'
+                },
+                body: JSON.stringify(user)
+            }).then( result=> {
+                result.json().then(res=>{
+                    // change the page
+                    console.log(res);
+                    if(res.error) {
+                        this.setState({
+                            snackbar: true,
+                            snackmessage: "User already exists",
+                        })
+                    }
+                });
             });
-        });
+        }
     }
 
     render() {
@@ -120,7 +141,7 @@ export default class SignBody extends React.Component {
 
                         {/* links  */}
                         <div style={links}>
-                            <Link href="#" color="primary">
+                            <Link to="/login" color="primary">
                                 log in instead
                             </Link>
                             <Button onClick={this.onSubmit} variant="contained" color="primary">
@@ -128,8 +149,19 @@ export default class SignBody extends React.Component {
                             </Button> 
                         </div>
                     </div>
-
                 </Paper>
+
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left'
+                    }}
+                    TransitionComponent={Slide}
+                    open={this.state.snackbar}
+                    onClose={()=>this.setState({snackbar: false})}
+                    message={this.state.snackmessage}
+                    autoHideDuration={3000}
+                />
             </div>
         )
     }

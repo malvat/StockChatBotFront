@@ -1,18 +1,27 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
-import { Widget, addResponseMessage } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';  
-import NavBar from './NavBar';
 import LogBody from './LogBody';
 import SignBody from './SignBody';
+import Dashboard from './Dashboard';
 
 function App() {
 
   return (
-    <div>
-      <NavBar />
-      <SignBody />
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/login">
+          <LogBody />
+        </Route>
+        <Route path="/signup">
+          <SignBody />
+        </Route>
+        <Route path="/dashboard">
+          <Dashboard />
+        </Route>
+      </Switch>
+    </Router>
 
   )
 }
