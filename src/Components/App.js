@@ -5,12 +5,13 @@ import 'react-chat-widget/lib/styles.css';
 import LogBody from './LogBody';
 import SignBody from './SignBody';
 import Dashboard from './Dashboard';
+import Home from './Home';
 
 function App() {
 
   return (
     <Router>
-      <Switch>
+      <Switch>  
         <Route path="/login">
           <LogBody />
         </Route>
@@ -19,6 +20,9 @@ function App() {
         </Route>
         <Route path="/dashboard">
           <Dashboard />
+        </Route>
+        <Route path="/">
+          <Home />
         </Route>
       </Switch>
     </Router>

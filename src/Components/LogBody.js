@@ -1,6 +1,6 @@
 import React from 'react'
-import {Paper, Typography, TextField, Button } from '@material-ui/core';
-import {Link} from "react-router-dom";
+import {Paper, Typography, TextField, Button, Snackbar, Slide } from '@material-ui/core';
+import {Link, Redirect} from "react-router-dom";
 
 const heading = {
     display: "flex",
@@ -41,7 +41,70 @@ const links = {
 }
 
 export default class LogBody extends React.Component {
+    constructor(props) {
+        super(props);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.state = {
+            snackmessage: "hello, there",
+            snackbar: false,
+            loggedin: false,
+        }
+    }
+
+    onSubmit(e) {
+        var user = {};
+        var fields = ["email", "password"];
+        var temp;
+        var incomplete = false;
+        console.log("clicked");
+        for(var i = 0; i < fields.length; i++) {    
+            temp = document.getElementById(fields[i]);
+            if(temp !== undefined) {
+                if(temp.value.trim() == "") {
+                    incomplete = true;
+                    break;
+                }
+                user[fields[i]] = temp.value;
+            } else {
+                incomplete = true;
+                break;
+            }
+        }
+
+        // check if all the necessary information is provided 
+        if(!incomplete) {
+            // make request to backedn for creating user
+            fetch("http://localhost:8000/user/view", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/JSON', 
+                    'Content-Type': 'application/JSON'
+                },
+                body: JSON.stringify(user)
+            }).then( result=> {
+                result.json().then(res=>{
+                    // change the page
+                    console.log(res);
+                    if(res.error) {
+                        this.setState({
+                            snackbar: true,
+                            snackmessage: "User does not exists",
+                        })
+                    } else {
+                        // logged in
+                        this.setState({
+                            loggedin: true,
+                        })
+                    }
+                });
+            });
+        }
+    }
+
     render() {
+        if(this.state.loggedin) {
+            return(<Redirect to="/dashboard" />)
+        }
         return(
             <div style={container}>
                 <Paper style={paper} variant="outlined" elevation={3}>
@@ -68,13 +131,25 @@ export default class LogBody extends React.Component {
                             <Link to="/signup" color="primary">
                                 create an account
                             </Link>
-                            <Button variant="contained" color="primary">
+                            <Button onClick={this.onSubmit} variant="contained" color="primary">
                                 Log in
                             </Button> 
                         </div>
                     </div>
 
                 </Paper>
+
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left'
+                    }}
+                    TransitionComponent={Slide}
+                    open={this.state.snackbar}
+                    onClose={()=>this.setState({snackbar: false})}
+                    message={this.state.snackmessage}
+                    autoHideDuration={3000}
+                />
             </div>
         )
     }
