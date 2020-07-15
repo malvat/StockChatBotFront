@@ -13,13 +13,20 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Grid from '@material-ui/core/Grid';
-import { Card, CardContent } from '@material-ui/core';
+import { Card, CardContent, Tooltip } from '@material-ui/core';
+import { Line, CartesianGrid, LineChart, XAxis, YAxis, BarChart, Bar } from 'recharts';
 
 const drawerWidth = 240;
+const data = [ {date: "A" ,uv: 400}, {date: "B", uv: 500}, {date: "C", uv: 700} ]
+const stock_data = [ {name :"AAPL", stocks: 24 }, {name :"GOOGL", stocks: 10 },
+{name :"NFLX", stocks: 22 }, {name :"AMZN", stocks: 44 }, {name: "SEN", stocks: "15"} ]
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    marginLeft: '50px',
+    marginTop: '20px',
+    width: '90%',
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -94,7 +101,7 @@ export default function ClippedDrawer() {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid style={{paddingTop: "2%"}} container spacing={2}>
+            <Grid style={{paddingTop: "2%"}} container spacing={7}>
               <Grid item>
                 <Card variant="outlined">
                   <CardContent>
@@ -122,6 +129,19 @@ export default function ClippedDrawer() {
                 </Card>
               </Grid>
               <Grid item>
+                <Card variant="outlined" >
+                  <CardContent>
+                    <Typography variant="h6">
+                      STOCKS COST
+                    </Typography>
+                    <br />
+                    <Typography variant="h4">
+                      $986, 208  
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item>
                 <Card variant="outlined" style={{backgroundColor: "#3F51B5", color: "white"}}>
                   <CardContent>
                     <Typography variant="h6">
@@ -134,6 +154,43 @@ export default function ClippedDrawer() {
                   </CardContent>
                 </Card>
               </Grid>
+            </Grid>
+            {/* next row  */}
+            <Grid style={{paddingTop: "4%"}} container spacing={7}>
+              <Grid item>
+                <Card variant="outlined">
+                  <CardContent>
+                    <Typography variant="h5">
+                      PROFIT
+                    </Typography>
+                    <br />
+                    <LineChart width={500} height={300} data={data}>
+                    <Line type="monotone" dataKey="uv" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                  </LineChart>
+
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              <Grid item>
+                <Card variant="outlined">
+                  <CardContent>
+                    <Typography variant="h5">
+                      TOP 5 STOCKS
+                    </Typography>
+                    <br />
+                    <BarChart width={440} height={300} data={stock_data}>
+                    <Bar barSize={30} type="monotone" dataKey="stocks" fill="#3F51B5"/>
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                  </BarChart>
+
+                  </CardContent>
+                </Card>
+              </Grid>
+
             </Grid>
         </Grid>
       </main>
