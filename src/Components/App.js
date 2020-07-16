@@ -4,8 +4,9 @@ import './App.css';
 import 'react-chat-widget/lib/styles.css';  
 import LogBody from './LogBody';
 import SignBody from './SignBody';
-import Dashboard from './Dashboard';
-import Home from './Home';
+import Home from './Dashboard/Home';
+import BuyStock from './Dashboard/BuyStock';
+import Title from './Title';
 
 function App() {
 
@@ -18,11 +19,14 @@ function App() {
         <Route path="/signup">
           <SignBody />
         </Route>
-        <Route path="/dashboard">
-          <Dashboard />
+        <Route path="/dashboard/home">
+          <Home />
+        </Route>
+        <Route path="/dashboard/buystock">
+          <BuyStock />
         </Route>
         <Route path="/">
-          <Home />
+          <Title />
         </Route>
       </Switch>
     </Router>

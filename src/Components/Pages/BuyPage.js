@@ -10,7 +10,7 @@ const heading = {
 }
 
 const paper = {
-    width:"20%",
+    width:"40%",
     padding: "2%",
     paddingTop: "5%",
     paddingBottom: "5%",
@@ -20,7 +20,7 @@ const container = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "100vh",
+    height: "100%",
 }
 
 const form = {
@@ -40,7 +40,7 @@ const links = {
     alignItems: "center",
 }
 
-export default class LogBody extends React.Component {
+export default class BuyStock extends React.Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
@@ -48,7 +48,11 @@ export default class LogBody extends React.Component {
             snackmessage: "hello, there",
             snackbar: false,
             loggedin: false,
+            stock_price: 0,
         }
+    }
+
+    onSearch(ticker) {
     }
 
     onSubmit(e) {
@@ -113,27 +117,29 @@ export default class LogBody extends React.Component {
                         {/* heading  */}
                         <div style={heading}>
                             <Typography variant="h5">
-                                Sign in
+                                Buy Stock
                             </Typography>
                             <Typography variant="subtitle1">
-                                To get the best out of us
+                                Invest your money and build your estate
                             </Typography>
                         </div>
 
                         {/* input form */}
                         <div style={form}>
                             <div style={{paddingTop: "10%", paddingBottom: "5%"}}>
-                                <TextField style={inputStyle} id="email" label="Email" variant="outlined"/>
+                                <TextField style={inputStyle} id="ticker" label="Stock Ticker" variant="outlined"/>
+                            </div>
+                            <div style={{ paddingBottom: "5%"}}>
+                                <TextField type="number" style={inputStyle} id="number_of_stocks" label="Number of Stock" variant="outlined"/>
                             </div>
                             <div style={{ paddingBottom: "10%"}}>
-                                <TextField type="password" style={inputStyle} id="password" label="Password" variant="outlined"/>
+                                <Typography variant="h6">
+                                    Price : {this.state.stock_price}
+                                </Typography>
                             </div>
                             <div style={links}>
-                                <Link to="/signup" color="primary">
-                                    create an account
-                                </Link>
                                 <Button onClick={this.onSubmit} variant="contained" color="primary">
-                                    Log in
+                                    BUY
                                 </Button> 
                             </div>
                         </div>
