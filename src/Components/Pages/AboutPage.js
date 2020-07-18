@@ -1,6 +1,6 @@
 import React from 'react'
-import {Paper, Typography, TextField, Button, Snackbar, Slide, Grow } from '@material-ui/core';
-import {Link, Redirect} from "react-router-dom";
+import {Paper, Typography, TextField, Button, Snackbar, Slide, Grow, Divider } from '@material-ui/core';
+import {Redirect} from "react-router-dom";
 
 const heading = {
     display: "flex",
@@ -10,8 +10,7 @@ const heading = {
 }
 
 const paper = {
-    width:"40%",
-    padding: "2%",
+    width:"70%",
     paddingTop: "5%",
     paddingBottom: "5%",
 };
@@ -21,6 +20,10 @@ const container = {
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
+}
+
+const sub_container = {
+    display: "flex",    
 }
 
 const form = {
@@ -40,7 +43,7 @@ const links = {
     alignItems: "center",
 }
 
-export default class BuyStock extends React.Component {
+export default class AboutPage extends React.Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
@@ -50,9 +53,6 @@ export default class BuyStock extends React.Component {
             buy_stock: false,
             stock_price: 0,
         }
-    }
-
-    onSearch(ticker) {
     }
 
     onSubmit(e) {
@@ -110,57 +110,66 @@ export default class BuyStock extends React.Component {
     }
 
     render() {
-        if(this.state.loggedin) {
-            return(<Redirect to="/dashboard" />)
-        }
         return(
             <Grow in={3}>
                 <div style={container}>
                     <Paper style={paper} variant="outlined" elevation={3}>
 
-                        {/* heading  */}
-                        <div style={heading}>
-                            <Typography variant="h5">
-                                Buy Stock
-                            </Typography>
-                            <Typography variant="subtitle1">
-                                Invest your money and build your estate
-                            </Typography>
-                        </div>
+                        <div style={ sub_container }>
+                            <div>
+                                 {/* heading  */}
+                                <div style={heading}>
+                                    <Typography variant="h5">
+                                        About us
+                                    </Typography>
+                                    <Typography variant="subtitle1">
+                                        Don't spend it, invest it
+                                    </Typography>
+                                </div>
 
-                        {/* input form */}
-                        <div style={form}>
-                            <div style={{paddingTop: "10%", paddingBottom: "5%"}}>
-                                <TextField style={inputStyle} id="ticker" label="Stock Ticker" variant="outlined"/>
+                            
+                                {/* about us content  */}
+                                <div style={{ padding: "5%",  paddingTop: "0" }}>
+                                    <Typography variant="subtitle1">
+                                        <ul>
+                                            <li> We are online stock brokers</li>
+                                            <li> We will help you invest your money without hastles </li>
+                                            <li> We provide live insights to your stock data </li>
+                                            <li> Use our chatbot to save your time </li>
+                                        </ul>
+                                    </ Typography>
+                                </div>
+
                             </div>
-                            <div style={{ paddingBottom: "5%"}}>
-                                <TextField type="number" style={inputStyle} id="quantity" label="Number of Stock" variant="outlined"/>
-                            </div>
-                            <div style={{ paddingBottom: "10%"}}>
-                                <Typography variant="h6">
-                                    Price : {this.state.stock_price}
+
+                            <Divider orientation="vertical" flexItem />
+                            
+                            <div>
+                                <div style={heading}>
+                                    <Typography variant="h5">
+                                        Contact information
+                                    </Typography>
+                                    <Typography variant="subtitle1">
+                                        Don't be shy, give us a mail
+                                    </Typography>
+                                </div>
+
+                                <Typography variant="subtitle1">
+                                    <ul>
+                                        <li> 
+                                            Mail: malvat@uwindsor.ca
+                                        </li> 
+                                        <li>
+                                            GitHub: https://github.com/malvat/StockChatBotFront
+                                        </li>
+                                        <li>
+                                            Website: http://animmalvat.ml/?i=1
+                                        </li>
+                                    </ul>
                                 </Typography>
                             </div>
-                            <div style={links}>
-                                <Button onClick={this.onSubmit} variant="contained" color="primary">
-                                    BUY
-                                </Button> 
-                            </div>
                         </div>
-
                     </Paper>
-
-                    <Snackbar
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left'
-                        }}
-                        TransitionComponent={Slide}
-                        open={this.state.snackbar}
-                        onClose={()=>this.setState({snackbar: false})}
-                        message={this.state.snackmessage}
-                        autoHideDuration={3000}
-                    />
                 </div>
             </Grow>
         )

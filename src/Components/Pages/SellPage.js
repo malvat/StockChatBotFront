@@ -1,6 +1,6 @@
 import React from 'react'
 import {Paper, Typography, TextField, Button, Snackbar, Slide, Grow } from '@material-ui/core';
-import {Link, Redirect} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 const heading = {
     display: "flex",
@@ -50,9 +50,6 @@ export default class BuyStock extends React.Component {
             buy_stock: false,
             stock_price: 0,
         }
-    }
-
-    onSearch(ticker) {
     }
 
     onSubmit(e) {
@@ -121,10 +118,10 @@ export default class BuyStock extends React.Component {
                         {/* heading  */}
                         <div style={heading}>
                             <Typography variant="h5">
-                                Buy Stock
+                                Sell Stock
                             </Typography>
                             <Typography variant="subtitle1">
-                                Invest your money and build your estate
+                                Get your share, you deserve it
                             </Typography>
                         </div>
 
@@ -143,7 +140,7 @@ export default class BuyStock extends React.Component {
                             </div>
                             <div style={links}>
                                 <Button onClick={this.onSubmit} variant="contained" color="primary">
-                                    BUY
+                                    SELL
                                 </Button> 
                             </div>
                         </div>

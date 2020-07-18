@@ -6,6 +6,8 @@ import LogBody from './LogBody';
 import SignBody from './SignBody';
 import Home from './Dashboard/Home';
 import BuyStock from './Dashboard/BuyStock';
+import SellStock from './Dashboard/SellStock';
+import About from './Dashboard/About';
 import Title from './Title';
 
 function App() {
@@ -24,6 +26,12 @@ function App() {
         </Route>
         <Route path="/dashboard/buystock">
           <BuyStock />
+        </Route>
+        <Route path="/dashboard/sellstock">
+          <SellStock />
+        </Route>
+        <Route path="/dashboard/aboutus">
+          <About />
         </Route>
         <Route path="/">
           <Title />

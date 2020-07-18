@@ -53,11 +53,29 @@ class SideMenu extends React.Component {
             this.setState({
                 buy_page: true,
                 home_page: false,
+                sell_page: false,
+                about_page: false,
             })
         } else if(item === "Home") {
             this.setState({
                 buy_page: false,
                 home_page: true,
+                sell_page: false,
+                about_page: false,
+            })
+        } else if(item === "Sell stocks") {
+            this.setState({
+                buy_page: false,
+                home_page: false,
+                sell_page: true,
+                about_page: false,
+            })
+        } else if(item === "About us") {
+            this.setState({
+                buy_page: false,
+                home_page: false,
+                sell_page: false,
+                about_page: true,
             })
         }
     }
@@ -67,6 +85,7 @@ class SideMenu extends React.Component {
         if(this.state.buy_page) {
             this.setState({
                 buy_page: false,
+                sell_page: false,
                 home_page: false,
             })
             return(
@@ -77,9 +96,33 @@ class SideMenu extends React.Component {
             this.setState({
                 buy_page: false,
                 home_page: false,
+                sell_page: false,
+                about_page: false,
             })
             return(
                 <Redirect to="/dashboard/home" />
+            )
+        }
+        if(this.state.sell_page) {
+            this.setState({
+                buy_page: false,
+                home_page: false,
+                sell_page: false,
+                about_page: false,
+            })
+            return(
+                <Redirect to="/dashboard/sellstock" />
+            )
+        }
+        if(this.state.about_page) {
+            this.setState({
+                buy_page: false,
+                home_page: false,
+                sell_page: false,
+                about_page: false,
+            })
+            return(
+                <Redirect to="/dashboard/aboutus"/>
             )
         }
         return(
@@ -93,7 +136,7 @@ class SideMenu extends React.Component {
                 <Toolbar />
                 <div className={classes.drawerContainer}>
                 <List>
-                    {['Home', 'Buy stocks', 'Sell stocks', 'Report'].map((text, index) => (
+                    {['Home', 'Buy stocks', 'Sell stocks'].map((text, index) => (
                     <ListItem onClick={ this.onItemSelected.bind(this, text) } button key={text}>
                         <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                         <ListItemText primary={text} />
@@ -102,8 +145,8 @@ class SideMenu extends React.Component {
                 </List>
                 <Divider />
                 <List>
-                    {['About us', 'Help'].map((text, index) => (
-                    <ListItem button key={text}>
+                    {['About us'].map((text, index) => (
+                    <ListItem onClick={ this.onItemSelected.bind(this, text) } button key={text}>
                         <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                         <ListItemText primary={text} />
                     </ListItem>

@@ -4,7 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import NavBar from '../NavBar';
 import SideMenu from '../SideMenu';
-import BuyPage from '../Pages/BuyPage';
+import SellPage from '../Pages/SellPage';
 
 const drawerWidth = 240;
 const data = [ {date: "A" ,uv: 400}, {date: "B", uv: 500}, {date: "C", uv: 700} ]
@@ -49,7 +49,7 @@ export default function Dashboard() {
       <SideMenu />
       <main className={classes.content}>
         <Toolbar />
-        <BuyPage />        
+        <SellPage />        
       </main>
     </div>
   );
