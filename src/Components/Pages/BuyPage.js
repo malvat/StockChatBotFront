@@ -1,5 +1,5 @@
 import React from 'react'
-import {Paper, Typography, TextField, Button, Snackbar, Slide, Grow } from '@material-ui/core';
+import {Paper, Typography, TextField, Button, Snackbar, Slide, Grow, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
 import {Link, Redirect} from "react-router-dom";
 
 const heading = {
@@ -44,15 +44,54 @@ export default class BuyStock extends React.Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onBuy = this.onBuy.bind(this);
+        this.onAgree = this.onAgree.bind(this);
         this.state = {
             snackmessage: "hello, there",
             snackbar: false,
             buy_stock: false,
             stock_price: 0,
+            buying: false,
         }
     }
 
-    onSearch(ticker) {
+    onAgree() {
+        this.setState({
+            buying: false,
+        })
+        // call the buy api 
+    }
+
+    onBuy() {
+        this.setState({buying: true,});
+        var quantity = document.getElementById('quantity').value;
+        var ticker = document.getElementById('ticker').value;
+        var data = {
+            quantity: quantity,
+            ticker: ticker,
+        };
+        console.log("clicked");
+        fetch("http://localhost:8000/user/stock/view", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/JSON',
+                'Content-Type': 'application/JSON',
+            },
+            body: JSON.stringify(data)
+        }).then(result => {
+            console.log("working");
+            result.json().then(res => {
+                if(!res.error) {
+                    console.log(res);
+                    this.setState({
+                        stock_price: res.data.price,
+                        total_price: res.data.total_price,
+                    })
+                } else {
+                    console.log("error fetching view data");
+                }
+            })
+        })
     }
 
     onSubmit(e) {
@@ -142,13 +181,39 @@ export default class BuyStock extends React.Component {
                                 </Typography>
                             </div>
                             <div style={links}>
-                                <Button onClick={this.onSubmit} variant="contained" color="primary">
+                                <Button onClick={this.onBuy} variant="contained" color="primary">
                                     BUY
                                 </Button> 
                             </div>
                         </div>
 
                     </Paper>
+                    <Dialog
+                        open={this.state.buying}
+                        onClose={()=>this.setState({buying: false,})}
+                        aria-labelledby="alert-title"
+                        TransitionComponent = {Slide}
+                    >
+                        <DialogTitle id="alert-title">
+                            Are you sure you want to buy?
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                Price per stock: {this.state.stock_price}
+                                <br/>
+                                It will cost you: {this.state.total_price}
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={()=>this.setState({buying:false})}color="primary">
+                                Disagree
+                            </Button>
+                            <Button onClick={this.onAgree} color="primary">
+                                Agree
+                            </Button>
+                        </DialogActions>
+
+                    </Dialog>
 
                     <Snackbar
                         anchorOrigin={{

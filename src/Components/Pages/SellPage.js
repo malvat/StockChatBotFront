@@ -1,6 +1,23 @@
 import React from 'react'
-import {Paper, Typography, TextField, Button, Snackbar, Slide, Grow } from '@material-ui/core';
+import {Paper, Typography, TextField, Button, Snackbar, Slide, Grow, Table, TableBody, TableHead, TableCell, TableRow, TablePagination} from '@material-ui/core';
+import {TableFooter} from "@material-ui/core";
 import {Redirect} from "react-router-dom";
+
+const data = [
+    {ticker: "one", purchased: "14 oct", current: "24.5", quantity: "44"},
+    {ticker: "two", purchased: "14 oct", current: "24.5", quantity: "44"},
+    {ticker: "three", purchased: "14 oct", current: "24.5", quantity: "44"},
+    {ticker: "four", purchased: "14 oct", current: "24.5", quantity: "44"},
+    {ticker: "five", purchased: "14 oct", current: "24.5", quantity: "44"},
+    {ticker: "six", purchased: "14 oct", current: "24.5", quantity: "44"},
+    {ticker: "seven", purchased: "14 oct", current: "24.5", quantity: "44"},
+    {ticker: "eight", purchased: "14 oct", current: "24.5", quantity: "44"},
+    {ticker: "nine", purchased: "14 oct", current: "24.5", quantity: "44"},
+    {ticker: "ten", purchased: "14 oct", current: "24.5", quantity: "44"},
+    {ticker: "eleven", purchased: "14 oct", current: "24.5", quantity: "44"},
+    {ticker: "twelve", purchased: "14 oct", current: "24.5", quantity: "44"},
+    {ticker: "thirteen", purchased: "14 oct", current: "24.5", quantity: "44"}
+]
 
 const heading = {
     display: "flex",
@@ -10,7 +27,7 @@ const heading = {
 }
 
 const paper = {
-    width:"40%",
+    width:"80%",
     padding: "2%",
     paddingTop: "5%",
     paddingBottom: "5%",
@@ -49,6 +66,8 @@ export default class BuyStock extends React.Component {
             snackbar: false,
             buy_stock: false,
             stock_price: 0,
+            page: 0,
+            rows: 4,
         }
     }
 
@@ -124,27 +143,43 @@ export default class BuyStock extends React.Component {
                                 Get your share, you deserve it
                             </Typography>
                         </div>
+                        
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell> Stock Ticker</TableCell>
+                                    <TableCell> Purchased at</TableCell>
+                                    <TableCell> Current Price </TableCell>
+                                    <TableCell> Number of stocks </TableCell>
+                                    <TableCell> SELL</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {data.slice(this.state.rows*(this.state.page), this.state.rows*(this.state.page+1)).map((row)=> (
+                                    <TableRow>
+                                        <TableCell> {row.ticker} </TableCell>
+                                        <TableCell> {row.purchased} </TableCell>
+                                        <TableCell> {row.current} </TableCell>
+                                        <TableCell> {row.quantity} </TableCell>
+                                        <TableCell> <Button color="primary"> SELL</Button> </TableCell>
+                                    </TableRow>
+                                ))}
 
-                        {/* input form */}
-                        <div style={form}>
-                            <div style={{paddingTop: "10%", paddingBottom: "5%"}}>
-                                <TextField style={inputStyle} id="ticker" label="Stock Ticker" variant="outlined"/>
-                            </div>
-                            <div style={{ paddingBottom: "5%"}}>
-                                <TextField type="number" style={inputStyle} id="quantity" label="Number of Stock" variant="outlined"/>
-                            </div>
-                            <div style={{ paddingBottom: "10%"}}>
-                                <Typography variant="h6">
-                                    Price : {this.state.stock_price}
-                                </Typography>
-                            </div>
-                            <div style={links}>
-                                <Button onClick={this.onSubmit} variant="contained" color="primary">
-                                    SELL
-                                </Button> 
-                            </div>
-                        </div>
+                            </TableBody>
 
+                            <TableFooter>
+                                <TableRow>
+                                    <TablePagination 
+                                        rowsPerPageOptions={[5]}
+                                        colSpan={5}
+                                        count={data.length}
+                                        rowsPerPage={this.state.rows}
+                                        page={this.state.page}
+                                        onChangePage={(event, page)=>{this.setState({page: page}); console.log(this.state.page)}}
+                                    />
+                                </TableRow>
+                            </TableFooter>
+                        </Table>
                     </Paper>
 
                     <Snackbar
